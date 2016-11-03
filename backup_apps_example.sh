@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo ./backup_macos_apps.sh -d /Volumes/WD2TB/Backups/ -r 60 -m 300000
+sudo ./backup_macos_apps.sh -d /Volumes/usbdrive/Backups/ -r 60 -m 300000

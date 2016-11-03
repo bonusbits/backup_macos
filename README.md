@@ -7,10 +7,25 @@ Another BASH script to backup all the applications.
     * Should be pre-installed on MacOS
 
 ## Setup
-1. Clone to system from Github.<br>
+1. Clone to system from Github.
+
   ```git clone https://github.com/bonusbits/macos_backup_scripts.git ~/git/```
-2. Make script executable<br>
+2. Make script executable
+
   ```sudo chmod +x ~/git/macos_backup_scripts/*.sh```
+3. Create Symlink and aliases for shell Scripts in bash profile
+
+```bash
+# Backup Scripts
+if [ ! -h "/usr/local/bin/backupmacuser" ]; then
+   ln -s "/path/to/clone/macos_backup_scripts/backup_macos_user.sh" /usr/local/bin/backupmacuser
+fi
+if [ ! -h "/usr/local/bin/backupmacapps" ]; then
+   ln -s "/path/to/clone/macos_backup_scripts/backup_macos_apps.sh" /usr/local/bin/backupmacapps
+fi
+alias backupjoe="sudo backupmacuser -u jdoe -d /Volumes/usbdrive/Backups -r 60 -m 500000"
+alias backupapps="sudo backupmacapps -d /Volumes/usbdrive/Backups/ -r 60 -m 300000"
+```
 
 ## Parameters: backup_macos_user.sh
 <table>
