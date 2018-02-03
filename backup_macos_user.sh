@@ -4,7 +4,7 @@
 
     default_max=250000
     default_retention=14
-    script_version="1.0.0 (08/26/2016)"
+    script_version="1.0.1 (11/01/2016)"
 
 # endregion Default Variables
 
@@ -98,7 +98,7 @@ sudo $0 -u ${USER} -d /Volumes/usbdrive/backups/${USER} -r 60 -m 500000
 date_time=$(date +%Y%m%d-%H%M)
 sourcehostname=$(uname -n | awk -F. '{ print $1 }')
 backup_root_path=${destination}/${sourcehostname}
-backup_path=${backup_root_path}/${username}/${date_time}
+backup_path=${backup_root_path}/Users/${username}/${date_time}
 log_file=${backup_path}/backup.log
 #set -u
 # read -p "Press any key to continue... " -n1 -s

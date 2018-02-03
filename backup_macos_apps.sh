@@ -4,7 +4,7 @@
 
     default_max=100000
     default_retention=14
-    script_version="1.0.0 (08/29/2016)"
+    script_version="1.0.1 (11/01/2016)"
 
 # endregion Default Variables
 
@@ -61,15 +61,22 @@ sudo $0 -d /Volumes/usbdrive/backups -r 60 -m 500000
     echo "$helpmessage";
 }
 
+
+function version_message() {
+versionmessage="Backup macOS Applications: $script_version"
+    echo "$versionmessage";
+}
+
 # endregion Help
 
 # region Arguments
 
-	while getopts "d:m:r:h" opts; do
+	while getopts "d:m:r:vh" opts; do
 	    case $opts in
 			d ) destination=$OPTARG;;
 			m ) max=$OPTARG;;
 			r ) retention=$OPTARG;;
+	        v ) version_message; exit 0;;
 	        h ) help_message; exit 0;;
 	    esac
 	done
@@ -89,7 +96,7 @@ sudo $0 -d /Volumes/usbdrive/backups -r 60 -m 500000
 date_time=$(date +%Y%m%d-%H%M)
 sourcehostname=$(uname -n | awk -F. '{ print $1 }')
 backup_root_path=${destination}/${sourcehostname}
-backup_path=${backup_root_path}/${username}/${date_time}
+backup_path=${backup_root_path}/Applications/${date_time}
 log_file=${backup_path}/backup.log
 #set -u
 # read -p "Press any key to continue... " -n1 -s
@@ -179,12 +186,12 @@ fi
 task_title='Run Backups'
 show_header "${task_title}"
 
-## User Directory
-show_message "ACTION: Backing up Home Directory (${backup_path})"
-tar --totals -czf ${backup_path}/user_dir.tgz /Users/${username} 2>&1 | tee -a ${log_file}
+## Applications
+show_message "ACTION: Backing up Applications (${backup_path})"
+tar --totals -czf ${backup_path}/apps_dir.tgz /Applications 2>&1 | tee -a ${log_file}
 # If a file changes while backing up then you get Exit Code 1 :\
 #exit_check ${PIPESTATUS[0]} 'Backing up Home Folder'
-du -h ${backup_path}/user_dir.tgz | tee -a ${log_file}
+du -h ${backup_path}/apps_dir.tgz | tee -a ${log_file}
 show_message ''
 
 show_footer "${task_title}"

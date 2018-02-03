@@ -1,6 +1,6 @@
 # Backup MacOS Scripts
-A BASH script to backup a single user data and personal settings.
-Another BASH script to backup all the applications.
+A BASH script to backup user home directories and Applications. 
+Optional switch to only backup user home directories.
 
 ## Prerequisites
 * tee command
@@ -9,25 +9,22 @@ Another BASH script to backup all the applications.
 ## Setup
 1. Clone to system from Github.
 
-  ```git clone https://github.com/bonusbits/macos_backup_scripts.git ~/git/```
-2. Make script executable
+  ```git clone https://github.com/bonusbits/backup_macos.git /path/to/clone/```
+2. Make script executable (if needed)
 
-  ```sudo chmod +x ~/git/macos_backup_scripts/*.sh```
+  ```sudo chmod +x /path/to/clone/backup_macos/backup_macos.sh```
 3. Create Symlink and aliases for shell Scripts in bash profile
 
 ```bash
 # Backup Scripts
-if [ ! -h "/usr/local/bin/backupmacuser" ]; then
-   ln -s "/path/to/clone/macos_backup_scripts/backup_macos_user.sh" /usr/local/bin/backupmacuser
+if [ ! -h "/usr/local/bin/backupmacos" ]; then
+   ln -s "/path/to/clone/backup_macos/backup_macos.sh" /usr/local/bin/backupmacos
 fi
-if [ ! -h "/usr/local/bin/backupmacapps" ]; then
-   ln -s "/path/to/clone/macos_backup_scripts/backup_macos_apps.sh" /usr/local/bin/backupmacapps
-fi
-alias backupjoe="sudo backupmacuser -u jdoe -d /Volumes/usbdrive/Backups -r 60 -m 500000"
-alias backupapps="sudo backupmacapps -d /Volumes/usbdrive/Backups/ -r 60 -m 300000"
+alias backupmacos-all="sudo backupmacos -d /Volumes/usbdrive/Backups -r 60 -m 500000"
+alias backupmacos-users="sudo backupmacos -u -d /Volumes/usbdrive/Backups -r 60 -m 500000"
 ```
 
-## Parameters: backup_macos_user.sh
+## Parameters
 <table>
   <tr>
     <th>Option</th>
@@ -35,7 +32,7 @@ alias backupapps="sudo backupmacapps -d /Volumes/usbdrive/Backups/ -r 60 -m 3000
   </tr>
   <tr>
     <td><tt>-u</tt></td>
-    <td>Username or home folder name to backup. (Required)</td>
+    <td>Only backup Users</td>
   </tr>
   <tr>
     <td><tt>-d</tt></td>
@@ -49,34 +46,19 @@ alias backupapps="sudo backupmacapps -d /Volumes/usbdrive/Backups/ -r 60 -m 3000
     <td><tt>-r</tt></td>
     <td>Retention Days. How long to keep backups in the destination directory. Default: (14)</td>
   </tr>
-</table>
-
-## Examples
-+ sudo backup_macos_user.sh -u jdoe -d /Volumes/usbdrive/Backups
-+ sudo backup_macos_user.sh -u jdoe -d /Volumes/usbdrive/Backups -r 60 -m 500000
-
-## Parameters: backup_macos_apps.sh
-<table>
   <tr>
-    <th>Option</th>
-    <th>Description</th>
+    <td><tt>-v</tt></td>
+    <td>Display Script Version</td>
   </tr>
   <tr>
-    <td><tt>-d</tt></td>
-    <td>Destination backup folder. (Required)</td>
-  </tr>
-  <tr>
-    <td><tt>-m</tt></td>
-    <td>Max Space in Megabits. How much maximum space to allow in the destination directory. Default: (250000MB)</td>
-  </tr>
-  <tr>
-    <td><tt>-r</tt></td>
-    <td>Retention Days. How long to keep backups in the destination directory. Default: (14)</td>
+    <td><tt>-h</tt></td>
+    <td>Display Help</td>
   </tr>
 </table>
 
 ## Examples
-+ sudo backup_macos_apps.sh -d /Volumes/usbdrive/Backups
-+ sudo backup_macos_apps.sh -d /Volumes/usbdrive/Backups -r 60 -m 500000
++ sudo backup_macos.sh -d /Volumes/usbdrive/Backups
++ sudo backup_macos.sh -u -d /Volumes/usbdrive/Backups -r 60 -m 500000
+
 
 ---
